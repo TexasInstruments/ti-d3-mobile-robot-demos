@@ -1,0 +1,53 @@
+<launch>
+
+    <!-- ti_detect_go -->
+    <node pkg="ti_detect_go" type="ti_detect_go" name="detect_go" output="screen" args="" required="true">
+        <param name="radar_track_topic" value="ti_mmwave/radar_trackarray"/>
+        <param name="out_vel_topic"     value="nav_vel"/>
+        <!-- clock rate for contol_cycle() -->
+        <param name="control_cycle_hz"  value="5"/>
+         <!-- following 3 params used in setting out_val.linear.x for each state -->
+        <param name="speed_linear_fast" value="0.8"/>
+        <param name="speed_linear_slow" value="0.4"/>
+        <param name="speed_linear_stop" value="0.0"/>
+        <!-- following 3 params define zone_stop and zone_slow -->
+        <param name="zone_stop_xlim"    value="0.8"/>
+        <param name="zone_slow_xlim"    value="1.5"/>
+        <param name="zone_yabs"         value="1.0"/>
+    </node>
+
+    <!-- ti_mmwave_tracker_rospkg -->
+    <!-- <include file="$(find ti_mmwave_tracker_rospkg)/launch/ISK_3d_Tracking.launch">
+    </include> -->
+    <!-- Input arguments -->
+    <arg name="command_port" default="/dev/ttyUSB0"/>
+    <arg name="data_port" default="/dev/ttyUSB1"/>
+    <arg name="max_allowed_elevation_angle_deg" default="90" doc="Maximum allowed elevation angle in degrees for detected object data [0 > value >= 90]}"/>
+    <arg name="max_allowed_azimuth_angle_deg" default="90" doc="Maximum allowed azimuth angle in degrees for detected object data [0 > value >= 90]}"/>
+    <!-- mmWave_Manager node -->
+    <node pkg="ti_mmwave_tracker_rospkg" type="ti_mmwave_tracker_rospkg" name="ti_mmwave" ns="radar_1" output="screen">
+    <param name="command_port" value="$(arg command_port)"  />
+    <param name="command_rate" value="115200"   />
+    <param name="data_port" value="$(arg data_port)"  />
+    <param name="data_rate" value="921600"   />
+    <param name="max_allowed_elevation_angle_deg" value="$(arg max_allowed_elevation_angle_deg)"   />
+    <param name="max_allowed_azimuth_angle_deg" value="$(arg max_allowed_azimuth_angle_deg)"   />
+    <param name="frame_id" value="ti_mmwave_1"/>
+    <param name="mmWaveCLI_name" value="/mmWaveCLI" />
+    <remap from="/ti_mmwave/radar_scan_pcl" to="/ti_mmwave/radar_scan_pcl_1"/>
+    </node>
+    <!-- mmWaveQuickConfig node (terminates after configuring mmWave sensor) -->
+    <node pkg="ti_mmwave_tracker_rospkg" type="mmWaveQuickConfig" name="ti_mmwave_config" ns="radar_1" args="$(find ti_mmwave_tracker_rospkg)/cfg/ISK_3d_Tracking.cfg" output="screen" >
+    <param name="mmWaveCLI_name" value="/mmWaveCLI" />
+    </node>
+    <!-- <node pkg="tf" type="static_transform_publisher" name="radar_baselink_1" args="0 0 0 0 0 0 ti_mmwave_pcl ti_mmwave_1 100"/> -->
+
+    <!-- rviz -->
+    <node pkg="rviz" type="rviz" name="rviz_sde" args="-d $(find ti_detect_go)/rviz/radar.rviz" />
+
+    <!-- rostopic echo -->
+    <node name="rostopic_echo" pkg="rostopic" type="rostopic" output="screen"
+        args="echo nav_vel/linear/x" >
+    </node>
+
+</launch>

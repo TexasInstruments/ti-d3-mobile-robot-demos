@@ -1,0 +1,33 @@
+<launch>
+
+    <!-- ti_detect_go -->
+    <node pkg="ti_detect_go" type="ti_detect_go" name="detect_go" output="screen" args="" required="true">
+        <param name="radar_track_topic" value="ti_mmwave/radar_trackarray"/>
+        <param name="out_vel_topic"     value="nav_vel"/>
+        <!-- clock rate for contol_cycle() -->
+        <param name="control_cycle_hz"  value="5"/>
+         <!-- following 3 params used in setting out_val.linear.x for each state -->
+        <param name="speed_linear_fast" value="0.8"/>
+        <param name="speed_linear_slow" value="0.4"/>
+        <param name="speed_linear_stop" value="0.0"/>
+        <!-- following 3 params define zone_stop and zone_slow -->
+        <param name="zone_stop_xlim"    value="0.8"/>
+        <param name="zone_slow_xlim"    value="1.5"/>
+        <param name="zone_yabs"         value="1.0"/>
+    </node>
+
+    <!-- rviz -->
+    <node pkg="rviz" type="rviz" name="rviz_sde" args="-d $(find ti_detect_go)/rviz/imx390_radar.rviz" />
+
+    <!-- rosbag play -->
+    <arg name="bagfile" default="$(find ti_detect_go)/data/radar-2022-10-12.bag"/>
+    <arg name="ratefactor" default="1.0"/>
+    <node name="rosbag_play" pkg="rosbag" type="play" output="screen"
+        args="-q -r $(arg ratefactor) -l $(arg bagfile)" >
+    </node>
+
+    <node name="rostopic_echo" pkg="rostopic" type="rostopic" output="screen"
+        args="echo nav_vel/linear/x" >
+    </node>
+
+</launch>

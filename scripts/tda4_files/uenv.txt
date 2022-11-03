@@ -1,0 +1,22 @@
+psdk_setup_file=.psdk_setup
+check_psdk_setup=load mmc 1:1 ${loadaddr} ${psdk_setup_file}
+
+# Reset to the default environment
+do_psdk_setup=env default -f -a; saveenv
+
+# If not previously configured, then configure the environment and indicate this by writing a file
+uenvcmd=if run check_psdk_setup; then echo "Already setup."; else run do_psdk_setup; mw.b ${loadaddr} 0 1; fatwrite mmc 1:1 ${loadaddr} .psdk_setup 1; reset; fi
+
+dorprocboot=1
+
+# Base overlay
+# name_overlays=k3-j721e-edgeai-apps.dtbo
+
+# IMX 390 cameras:
+# name_overlays=k3-j721e-edgeai-apps.dtbo k3-j721e-fpdlink-sk-fusion.dtbo k3-j721e-fpdlink-imx390-rcm-0-0.dtbo k3-j721e-fpdlink-imx390-rcm-0-1.dtbo k3-j721e-fpdlink-imx390-rcm-0-2.dtbo k3-j721e-fpdlink-imx390-rcm-0-3.dtbo
+
+# Motor Control
+# name_overlays=k3-j721e-edgeai-apps.dtbo k3-j721e-sk-rpi-exp-header.dtbo
+
+# Everything:
+name_overlays=k3-j721e-edgeai-apps.dtbo k3-j721e-sk-rpi-exp-header.dtbo k3-j721e-fpdlink-sk-d3-fusion.dtbo k3-j721e-fpdlink-imx390-rcm-1-2.dtbo k3-j721e-fpdlink-imx390-rcm-0-1.dtbo k3-j721e-fpdlink-imx390-rcm-0-2.dtbo k3-j721e-fpdlink-imx390-rcm-0-3.dtbo

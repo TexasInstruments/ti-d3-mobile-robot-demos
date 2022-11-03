@@ -1,0 +1,4 @@
+# List environment variables to pass to the Docker container
+# Note: no white space is allowed around "="
+PSDK_BASE_PATH=/usr/include/processor_sdk
+SDK_DIR=/opt/robotics_sdk

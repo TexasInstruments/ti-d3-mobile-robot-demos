@@ -1,0 +1,18 @@
+<launch>
+
+    <arg name="speed_linear_fast" default="0.8"/>
+    <arg name="speed_linear_slow" default="0.4"/>
+    <arg name="speed_linear_stop" default="0.0"/>
+
+    <node pkg="ti_dlp_command" type="dlp_ros.py" name="dlp_control" ns="dlp" output="screen">
+    </node>
+
+    <node pkg="ti_dlp_command" type="dlp_interface.py" name="dlp_interface" ns="dlp" output="screen">
+        <!-- following 3 params used in setting out_val.linear.x for each state -->
+        <param name="speed_linear_fast" value="$(arg speed_linear_fast)"/>
+        <param name="speed_linear_slow" value="$(arg speed_linear_slow)"/>
+        <param name="speed_linear_stop" value="$(arg speed_linear_stop)"/>
+        <remap from="/dlp_test_string" to="/dlp/dlp_test_string"/>
+    </node>
+
+</launch>
