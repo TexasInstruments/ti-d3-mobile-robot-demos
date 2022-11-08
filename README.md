@@ -66,8 +66,9 @@ The folder structure for the TI-D3 mobile robot project is as follows:
 + nodes/                       # Pass to 'catkin_make --source ...'
   + ti_detect_go/
   + ti_dlp_command/
+  + tid3_robot_demos/
   + radar_driver
-    + ti_mmwave_tracker/
+    + ti_mmwave_tracker_rospkg/
     + serial/
   + d3_nodes
     + d3_fusion/
@@ -82,7 +83,6 @@ Build the Docker container for the project:
 ```
 
 You can check if the Docker image is successfully built:
-
 ```
 root@tda4vm-sk:/opt# docker images
 REPOSITORY         TAG           IMAGE ID            CREATED            SIZE
@@ -158,7 +158,7 @@ source devel/setup.bash
 ```
 
 <!-- ====================================================================== -->
-### Run the Demo
+### Run the Demo: Camera + Radar Sensor Fusion, Motor Control and DLP Projection
 
 **TDA4**:
 Run the Docker container for the project:
@@ -186,4 +186,12 @@ $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 In the project Docker container:
 ```
 roslaunch d3_fusion fusion_viz.launch
+```
+
+### Teleop with a Gamepad
+**TDA4**:
+In the project Docker container:
+```
+source devel/setup.bash
+roslaunch d3_fusion drive.launch
 ```
