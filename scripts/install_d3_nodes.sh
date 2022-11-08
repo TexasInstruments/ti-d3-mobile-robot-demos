@@ -1,7 +1,7 @@
 #!/bin/bash
 # project path
 ARCH=`arch`
-PROJ_NAME=ti-d3-mobile-robot
+PROJ_NAME=ti-d3-mobile-robot-demos
 if [[ "$ARCH" == "aarch64" ]]; then
     PROJ_DIR=/opt/$PROJ_NAME
 elif [[ "$ARCH" == "x86_64" ]]; then

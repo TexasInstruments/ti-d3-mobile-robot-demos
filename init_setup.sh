@@ -13,26 +13,26 @@ GIT_REPO="https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git"
 BRANCH=master
 
 # Define env variables
-export WORK_DIR=$HOME/j7ros_home
-export ROS_WS=$WORK_DIR/tid3_ws
-export PROJ_NAME=ti-d3-mobile-robot-demos
+ROS_WS=$HOME/j7ros_home/tid3_ws
+PROJ_NAME=ti-d3-mobile-robot-demos
 
 # Installation path
 ARCH=`arch`
 if [[ "$ARCH" == "aarch64" ]]; then
-    export PROJ_DIR=/opt/$PROJ_NAME
+    PROJ_BASE=/opt
 elif [[ "$ARCH" == "x86_64" ]]; then
-    export PROJ_DIR=$ROS_WS/src/$PROJ_NAME
+    PROJ_BASE=$ROS_WS/src
 else
     echo "$ARCH is not supported"
     exit 1
 fi
+PROJ_DIR=$PROJ_BASE/$PROJ_NAME
 
 function git_clone_with_tag {
     GIT_URL=$1
     GIT_FOLDER=$2
     TAG=$3
-    cd $PROJ_DIR/..
+    cd $PROJ_BASE
     if [[ ! -d "$GIT_FOLDER" ]]; then
         git clone --single-branch --branch master $GIT_URL $GIT_FOLDER
         cd $GIT_FOLDER
@@ -42,9 +42,20 @@ function git_clone_with_tag {
     fi
 }
 
+function git_clone {
+    GIT_URL=$1
+    GIT_FOLDER=$2
+    cd $PROJ_BASE
+    if [[ ! -d "$GIT_FOLDER" ]]; then
+        git clone --single-branch --branch master $GIT_URL $GIT_FOLDER
+    else
+        echo "$GIT_FOLDER already exists"
+    fi
+}
+
 # Git clone the project git repository
-cd $PROJ_DIR/..
-git_clone_with_tag $GIT_REPO $PROJ_NAME $GIT_TAG
+# git_clone_with_tag $GIT_REPO $PROJ_NAME $GIT_TAG
+git_clone_with_tag $GIT_REPO $PROJ_NAME
 
 # Install mmWave radar driver node
 bash $PROJ_DIR/scripts/install_radar_driver.sh
@@ -72,7 +83,7 @@ if [[ "$ARCH" == "aarch64" ]]; then
     bash $PROJ_DIR/scripts/install_imx390_ldc_files.sh
 fi
 
-# Setup $WORK_DIR
+# Setup working dir
 if [[ "$ARCH" == "aarch64" ]]; then
     cp $PROJ_DIR/scripts/tda4_files/{.profile,.bashrc} $HOME
 fi
