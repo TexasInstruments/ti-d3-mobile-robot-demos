@@ -8,7 +8,7 @@ TI-D3 Mobile Robot Demos
 <!-- ======================================================================= -->
 ## TI-D3 Mobile Robot
 
-[![Alt text](https://img.youtube.com/vi/rrhvhDdtyF8/0.jpg)](https://www.youtube.com/watch?v=rrhvhDdtyF8)
+[![](https://img.youtube.com/vi/rrhvhDdtyF8/0.jpg)](https://www.youtube.com/watch?v=rrhvhDdtyF8)
 
 <p align="left">
   <img src="docs/ti_d3_mobile_robot_2022-10-11.jpg" alt="drawing" style="width:512px;"/>
@@ -34,20 +34,18 @@ Download the prebuilt SD card image from [this link](https://software-dl.ti.com/
 - V4L2 fix for IMX390 camera
 - XR USB serial driver for D3's IWR6843AOP radar sensor
 
-Flash the downloaded image to a SD card using balenaEtcher tool. For detailed instruction, please refer to the following section of Edge AI documentation: ["Preparing SD card image"](https://software-dl.ti.com/jacinto7/esd/processor-sdk-linux-sk-tda4vm/latest/exports/docs/getting_started.html#preparing-sd-card-image).
+Flash the downloaded image to a SD card using the balenaEtcher tool, referring to the following section of Edge AI documentation: ["Preparing SD card image"](https://software-dl.ti.com/jacinto7/esd/processor-sdk-linux-sk-tda4vm/latest/exports/docs/getting_started.html#preparing-sd-card-image).
 
 ### Robotics SDK
-The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK ROS1 Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC.
+The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC.
 - [Setting Up Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/README.html#setting-up-robotics-sdk)
 - [Docker Setup for ROS 1](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/setting_docker_ros1.html#docker-setup-for-ros-1)
 
 ### Build the ROS Packages
-### TI-D3 Mobile Robot: Project Folder
 
-On the SSH terminal for the TDA4, download and run [`init_setup.sh`](https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh):
+On a SSH terminal for the TDA4, download and run [`init_setup.sh`](https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh):
 
 ```
-cd
 wget -O init_setup.sh https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh
 bash ./init_setup.sh
 ```
@@ -105,10 +103,10 @@ $HOME/j7ros_home/
 + tid3_ws # TI-D3 Mobile Robot project workspace
 ```
 
-Build in the ROS packages inside the project Docker container:
+Build the ROS packages inside the project Docker container:
 ```
 cd ~/j7ros_home/tid3_ws
-# This is important to use the packages from Robotics SDK
+# this is important to use the packages from Robotics SDK
 source ~/j7ros_home/ros_ws/devel/setup.bash
 catkin_make --source /opt/ti-d3-mobile-robot-demos/nodes
 source devel/setup.bash
@@ -153,7 +151,7 @@ $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 Build the ROS packages inside the project Docker container:
 ```
 cd ~/j7ros_home/tid3_ws
-# This is important to use the packages from Robotics SDK
+# this is important to use the packages from Robotics SDK
 source ~/j7ros_home/ros_ws/devel/setup.bash
 catkin_make
 source devel/setup.bash
@@ -171,7 +169,7 @@ Run the Docker container for the project:
 In the project Docker container:
 ```
 source devel/setup.bash
-roslaunch tid3_robot_demos electronica.launch
+roslaunch tid3_robot_demos fusion_detect_go.launch
 ```
 
 **PC**:
