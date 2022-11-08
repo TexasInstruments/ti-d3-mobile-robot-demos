@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.5)
+project(tid3_robot_demos)
+
+find_package(catkin REQUIRED)
+
+catkin_package(LIBRARIES CATKIN_DEPENDS)
+
+message(STATUS "CATKIN_PACKAGE_SHARE_DESTINATION: ${CATKIN_PACKAGE_SHARE_DESTINATION}")
+
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
