@@ -1,0 +1,31 @@
+# The below rules map the USB Ports on hub(s) plugged into either USB 3 Type A Port on the Edge AI
+# SK as follows:
+# Hub Port 1: Front Radar
+# Hub Port 2: Back Radar
+# Hub Port 3: Left Radar
+# Hub Port 4: Right Radar
+
+# Port 1 on the USB Hub
+KERNELS=="1-1.1.1:1.0", SUBSYSTEM=="tty", SYMLINK+="frontradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.1.1:1.2", SUBSYSTEM=="tty", SYMLINK+="frontradardata", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.1:1.0", SUBSYSTEM=="tty", SYMLINK+="frontradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.1:1.2", SUBSYSTEM=="tty", SYMLINK+="frontradardata", RUN+="/usr/local/bin/radar_load.sh"
+
+# Port 2 on the USB Hub
+KERNELS=="1-1.1.2:1.0", SUBSYSTEM=="tty", SYMLINK+="backradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.1.2:1.2", SUBSYSTEM=="tty", SYMLINK+="backradardata", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.2:1.0", SUBSYSTEM=="tty", SYMLINK+="backradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.2:1.2", SUBSYSTEM=="tty", SYMLINK+="backradardata", RUN+="/usr/local/bin/radar_load.sh"
+
+# Port 3 on the USB Hub
+KERNELS=="1-1.1.3:1.0", SUBSYSTEM=="tty", SYMLINK+="leftradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.1.3:1.2", SUBSYSTEM=="tty", SYMLINK+="leftradardata", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.3:1.0", SUBSYSTEM=="tty", SYMLINK+="leftradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.3:1.2", SUBSYSTEM=="tty", SYMLINK+="leftradardata", RUN+="/usr/local/bin/radar_load.sh"
+
+# Port 4 on the USB Hub
+KERNELS=="1-1.1.4.1:1.0", SUBSYSTEM=="tty", SYMLINK+="rightradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.1.4.1:1.2", SUBSYSTEM=="tty", SYMLINK+="rightradardata", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.4.1:1.0", SUBSYSTEM=="tty", SYMLINK+="rightradarcontrol", RUN+="/usr/local/bin/radar_load.sh"
+KERNELS=="1-1.2.4.1:1.2", SUBSYSTEM=="tty", SYMLINK+="rightradardata", RUN+="/usr/local/bin/radar_load.sh"
+

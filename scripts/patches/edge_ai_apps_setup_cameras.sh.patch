@@ -1,0 +1,51 @@
+diff --git a/scripts/setup_cameras.sh b/scripts/setup_cameras.sh
+index 222e27b..31a5ce5 100755
+--- a/scripts/setup_cameras.sh
++++ b/scripts/setup_cameras.sh
+@@ -30,9 +30,19 @@
+ #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ #  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++
+ setup_imx390(){
+     IMX390_CAM_FMT='[fmt:SRGGB12_1X12/1936x1100 field: none]'               
+ 
++    # Map UB960 i2c address to instance number (to match the device-tree nodes to enable cameras)
++    declare -A UB960_INST
++    UB960_INST["003d"]=0
++    UB960_INST["0036"]=1
++    # Remove any symlinks previously created by this script
++    if [ ! -z "/dev/imx390-*" ]; then
++        rm -f "/dev/imx390-*"
++    fi
++
+     i=0
+     for media_id in {0..1}; do
+     # UB953 FORMATS
+@@ -61,15 +71,24 @@ setup_imx390(){
+         fi
+         UB960_FMT_STR="${UB960_FMT_STR}${UB960_PAD}/0 -> 4/${UB960_PAD} [1]"
+         CSI2RX_FMT_STR="${CSI2RX_FMT_STR}0/${UB960_PAD} -> $(($UB960_PAD+1))/0 [1]"
+-
++        IMX390_DEVICE=`media-ctl -d $media_id -p -e "$CSI2RX_CONTEXT_NAME" | grep video | awk '{print $4}'`
+         echo "IMX390 Camera $i detected"
+-        echo "    device = "`media-ctl -d $media_id -p -e "$CSI2RX_CONTEXT_NAME" | grep video | awk '{print $4}'`
++        echo "    device = ${IMX390_DEVICE}"
+         echo "    name = imx390 $name"
+         echo "    format = $IMX390_CAM_FMT"
+         echo "    subdev_id = $CAM_SUBDEV"
+         echo "    isp_required = yes"
+         echo "    ldc_required = yes"
+ 
++        UB960_ID=`echo ${UB960_NAME} | cut -d"-" -f2`
++        if [ ! -z ${UB960_INST[${UB960_ID}]} ] ; then
++            IMX390_DEVLINK="/dev/imx390-${UB960_INST[${UB960_ID}]}-${UB960_PAD}"
++            ln -sf ${IMX390_DEVICE} "${IMX390_DEVLINK}"
++            ln -sf ${CAM_SUBDEV} "${IMX390_DEVLINK}-subdev"
++            echo "    device symlink = ${IMX390_DEVLINK}"
++            echo "    subdev symlink = ${IMX390_DEVLINK}-subdev"
++        fi
++
+         ((i++))
+     done
+ 

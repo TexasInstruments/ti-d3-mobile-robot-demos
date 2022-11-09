@@ -1,6 +1,31 @@
 <launch>
+
+    <!-- IMX390 device mapping
+    Front  /dev/imx390-0-3
+    Left   /dev/imx390-0-2
+    Right  /dev/imx390-0-1
+    Back   /dev/imx390-1-2 -->
+
+    <!-- You can check the device ID and subdev ID for the IMX390 camera attached
+    by running /opt/edge_ai_apps/scripts/setup_cameras.sh.
+    Accordingly please update the parameters pass as arguments -->
+    <arg name="device" default="/dev/imx390-0-3"/>
+    <arg name="subdev" default="/dev/imx390-0-3-subdev"/>
     <arg name="width" default="1280"/>
     <arg name="height" default="720"/>
+
+    <!-- Radar device mapping
+    /dev/frontradarcontrol ttyXRUSB0
+    /dev/frontradardata    ttyXRUSB1
+    /dev/backradarcontrol  ttyXRUSB2
+    /dev/backradardata     ttyXRUSB3
+    /dev/leftradarcontrol  ttyXRUSB4
+    /dev/leftradardata     ttyXRUSB5
+    /dev/rightradarcontrol ttyXRUSB6
+    /dev/rightradardata    ttyXRUSB7 -->
+
+    <arg name="radar_command_port" default="/dev/frontradarcontrol"/>
+    <arg name="radar_data_port"    default="/dev/frontradardata"/>
 
     <!-- args for motor control -->
     <arg name="speed_linear_fast" default="0.8"/>
@@ -8,11 +33,6 @@
     <arg name="speed_linear_stop" default="0.0"/>
 
     <!-- FROM v4l_imx390_raw.launch -->
-    <!-- You can check the device ID and subdev ID for the IMX390 camera attached
-    by running /opt/edge_ai_apps/scripts/setup_cameras.sh.
-    Accordingly please update the parameters pass as arguments -->
-    <arg name="device" default="/dev/video21"/>
-    <arg name="subdev" default="/dev/v4l-subdev7"/>
     <!-- framerate (integer): inactive, 30 FPS (default, max) -->
     <!-- Can be enabled by e.g., adding videorate before tiovxdlcolorconvert, but it creases A72 loading -->
     <arg name="framerate" default="30"/>
@@ -71,7 +91,6 @@
         <!-- image_raw is already undistorted, just use it here -->
         <param name = "input_topic_name" value = "$(arg camera_name)/image_raw"/>
         <!-- This is a hack to handle the fact LDC happens outside this node now -->
-        <!-- TODO - modify this node to disable publishing to rectified_image_topic to save bandwidth -->
         <param name = "rectified_image_topic" value = "$(arg camera_name)/ignore/image_rect_nv12"/>
         <param name = "rectified_image_frame_id" value = "$(arg camera_name)"/>
         <param name = "vision_cnn_tensor_topic" value = "$(arg camera_name)/vision_cnn/tensor"/>
@@ -85,20 +104,14 @@
     <!-- d3_fusion launch file removes rviz and sets the serial ports appropriately -->
     <!-- <include ns="radar_1" file="$(find d3_fusion)/launch/AOP_3d_Tracking.launch" /> -->
 
-    <!-- Input arguments -->
-    <!-- <arg name="device" value="6843" doc="TI mmWave sensor device type [1443, 1642]"/> -->
-    <!-- <arg name="config" value="3d_Tracking" doc="TI mmWave sensor device configuration [3d_best_range_res (not supported by 1642 EVM), 2d_best_range_res]"/> -->
-    <arg name="max_allowed_elevation_angle_deg" default="90" doc="Maximum allowed elevation angle in degrees for detected object data [0 > value >= 90]}"/>
-    <arg name="max_allowed_azimuth_angle_deg" default="90" doc="Maximum allowed azimuth angle in degrees for detected object data [0 > value >= 90]}"/>
-
     <!-- mmWave_Manager node -->
     <node pkg="ti_mmwave_tracker_rospkg" type="ti_mmwave_tracker_rospkg" name="ti_mmwave" ns="radar_1" output="screen">
-        <param name="command_port" value="/dev/ttyXRUSB0"  />
+        <param name="command_port" value="$(arg radar_command_port)"  />
         <param name="command_rate" value="115200"   />
-        <param name="data_port" value="/dev/ttyXRUSB1"  />
+        <param name="data_port" value="$(arg radar_data_port)"  />
         <param name="data_rate" value="921600"   />
-        <param name="max_allowed_elevation_angle_deg" value="$(arg max_allowed_elevation_angle_deg)"   />
-        <param name="max_allowed_azimuth_angle_deg" value="$(arg max_allowed_azimuth_angle_deg)"   />
+        <param name="max_allowed_elevation_angle_deg" value="90"   />
+        <param name="max_allowed_azimuth_angle_deg" value="90"   />
         <param name="frame_id" value="ti_mmwave_1"/>
         <param name="mmWaveCLI_name" value="/mmWaveCLI" />
         <remap from="/ti_mmwave/radar_scan_pcl" to="/ti_mmwave/radar_scan_pcl_1"/>

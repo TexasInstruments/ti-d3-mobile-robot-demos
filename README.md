@@ -185,6 +185,7 @@ $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 
 In the project Docker container:
 ```
+source devel/setup.bash
 roslaunch d3_fusion fusion_viz.launch
 ```
 
