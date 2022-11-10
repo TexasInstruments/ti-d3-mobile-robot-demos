@@ -188,7 +188,7 @@ GPUS=y $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_p
 In the project Docker container:
 ```
 source devel/setup.bash
-roslaunch d3_fusion fusion_viz.launch
+roslaunch tid3_robot_demos fusion_rviz.launch
 ```
 
 ### Teleop with a Gamepad
