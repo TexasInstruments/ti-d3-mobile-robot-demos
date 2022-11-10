@@ -10,6 +10,7 @@ else
     echo "$ARCH is not supported"
     exit 1
 fi
+CURRENT_DIR=`pwd`
 
 # install D3 ROS nodes
 GIT_TAG=08.04.00
@@ -47,5 +48,8 @@ function git_clone {
 git_clone          $GIT_URL_BASE/edge-ai-ros-fusion.git   d3_fusion
 git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-motorctl.git d3_motorctl $GIT_TAG
 git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-gamepad.git  d3_gamepad  $GIT_TAG
+
+#TODO: remove below once the patch is applied directly to d3_fusion repo
+cd $WORK_PATH/d3_fusion && git apply $PROJ_DIR/scripts/patches/d3_fusion.patch && cd -
 
 cd $CURRENT_DIR

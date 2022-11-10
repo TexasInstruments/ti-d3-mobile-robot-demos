@@ -1,0 +1,73 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f74aae3..6dd0fb2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,8 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
+   rospy
+   sensor_msgs
+   std_msgs
+-  ti_mmwave_rospkg
+-  ti_viz_nodes
++  ti_mmwave_tracker_rospkg
+ )
+ 
+ ## System dependencies are found with CMake's conventions
+diff --git a/launch/AOP_3d_Tracking.launch b/launch/AOP_3d_Tracking.launch
+index 31e844d..61f2961 100644
+--- a/launch/AOP_3d_Tracking.launch
++++ b/launch/AOP_3d_Tracking.launch
+@@ -24,7 +24,7 @@
+   </node>
+ 
+   <!-- mmWaveQuickConfig node (terminates after configuring mmWave sensor) -->
+-  <node pkg="ti_mmwave_rospkg" type="mmWaveQuickConfig" name="ti_mmwave_config" ns="radar_1" args="$(find ti_mmwave_rospkg)/cfg/AOP_3d_Tracking.cfg" output="screen" >
++  <node pkg="ti_mmwave_rospkg" type="mmWaveQuickConfig" name="ti_mmwave_config" ns="radar_1" args="$(find ti_mmwave_tracker_rospkg)/cfg/AOP_3d_Tracking.cfg" output="screen" >
+     <param name="mmWaveCLI_name" value="/mmWaveCLI" />
+   </node>
+ 
+diff --git a/package.xml b/package.xml
+index 9486d02..4605c62 100644
+--- a/package.xml
++++ b/package.xml
+@@ -55,25 +55,21 @@
+   <build_depend>rospy</build_depend>
+   <build_depend>sensor_msgs</build_depend>
+   <build_depend>std_msgs</build_depend>
+-  <build_depend>ti_mmwave_rospkg</build_depend>
+-  <build_depend>ti_viz_nodes</build_depend>
++  <build_depend>ti_mmwave_tracker_rospkg</build_depend>
+   <build_export_depend>cv_bridge</build_export_depend>
+   <build_export_depend>ros_numpy</build_export_depend>
+   <build_export_depend>roscpp</build_export_depend>
+   <build_export_depend>rospy</build_export_depend>
+   <build_export_depend>sensor_msgs</build_export_depend>
+   <build_export_depend>std_msgs</build_export_depend>
+-  <build_export_depend>ti_mmwave_rospkg</build_export_depend>
+-  <build_export_depend>ti_viz_nodes</build_export_depend>
++  <build_export_depend>ti_mmwave_tracker_rospkg</build_export_depend>
+   <exec_depend>cv_bridge</exec_depend>
+   <exec_depend>ros_numpy</exec_depend>
+   <exec_depend>roscpp</exec_depend>
+   <exec_depend>rospy</exec_depend>
+   <exec_depend>sensor_msgs</exec_depend>
+   <exec_depend>std_msgs</exec_depend>
+-  <exec_depend>ti_mmwave_rospkg</exec_depend>
+-  <exec_depend>ti_viz_nodes</exec_depend>
+-
++  <exec_depend>ti_mmwave_tracker_rospkg</exec_depend>
+ 
+   <!-- The export tag contains other, unspecified, tags -->
+   <export>
+diff --git a/src/fusion_cnn_radar.py b/src/fusion_cnn_radar.py
+index edc789a..6dc12c1 100755
+--- a/src/fusion_cnn_radar.py
++++ b/src/fusion_cnn_radar.py
+@@ -13,7 +13,7 @@ from cv_bridge import CvBridge
+ from sensor_msgs.msg import Image
+ from sensor_msgs.msg import CameraInfo
+ from sensor_msgs.msg import PointCloud2
+-from ti_mmwave_rospkg.msg import RadarTrackArray
++from ti_mmwave_tracker_rospkg.msg import RadarTrackArray
+ from common_msgs.msg import Detection2D
+ import sensor_msgs.point_cloud2 as pc2
+ #from icecream import ic # python3 -m pip install icecream

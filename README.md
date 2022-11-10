@@ -41,16 +41,15 @@ The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.c
 - [Setting Up Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/README.html#setting-up-robotics-sdk)
 - [Docker Setup for ROS 1](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/setting_docker_ros1.html#docker-setup-for-ros-1)
 
-### Build the ROS Packages
+### Preparing Software on TDA4
 
-On a SSH terminal for the TDA4, download and run [`init_setup.sh`](https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh):
-
+On a SSH terminal for the TDA4, clone the project repository and run the initial setup script:
 ```
-wget -O init_setup.sh https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh
-bash ./init_setup.sh
+cd /opt
+git clone https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git
+bash /opt/ti-d3-mobile-robot-demos/init_setup.sh
 ```
 The setup script performs:
-- Git-clone the project git repository
 - Install the mmWave radar driver ROS node
 - Install ROS nodes from D3 Engineering's  git repositories
 - Update DTBO overlay to use IMX390 cameras
@@ -76,7 +75,8 @@ The folder structure for the TI-D3 mobile robot project is as follows:
     + d3_motorctl/
 ```
 
-### Set Up Docker Environment for the Project
+#### Set Up Docker Environment for the Project
+
 Build the Docker container for the project:
 ```
 /opt/ti-d3-mobile-robot-demos/docker/docker_build.sh
@@ -95,6 +95,7 @@ Run the Docker container for the project:
 ```
 /opt/ti-d3-mobile-robot-demos/docker/docker_run.sh
 ```
+#### Build the ROS Packages
 
 Please note that we will use a separate ROS workspace, `$HOME/j7ros_home/tid3_ws`, for the project. We assume that Robotics SDK has been already built under `$HOME/j7ros_home/ros_ws`.
 ```
@@ -117,14 +118,24 @@ source devel/setup.bash
 
 A Ubuntu PC is required for visualization of ROS topics published from the TDA4 target. We have tested only with native x86_64 Ubuntu PCs, and have not tested with any other Ubuntu systems: including Ubuntu virtual machines and Docker Desktop on Mac or Windows.
 
-Download and run [`init_setup.sh`](https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh)
+Clone the project repository and run the initial setup script:
 ```
-cd ~/j7ros_home
-wget -O init_setup.sh https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh
-bash ./init_setup.sh
+mkdir -p ~/j7ros_home/tid3_ws/src
+cd ~/j7ros_home/tid3_ws/src
+git clone https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git
+bash ~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/init_setup.sh
 ```
 
 The project is installed under `$HOME/j7ros_home/tid3_ws/src` folder.
+
+#### Set Up Docker Environment for the Project
+
+Build the Docker container for the project:
+```
+~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_build_pc.sh
+```
+
+#### Build the ROS Packages
 
 In a similar way as in TDA4, we have two ROS workspaces:
 ```
@@ -133,19 +144,10 @@ $HOME/j7ros_home/
 + tid3_ws # TI-D3 Mobile Robot workspace
 ```
 
-Build the Docker container for the project:
+Before running the project Docker image, for ROS network settings please update `J7_IP_ADDR` and `PC_IP_ADDR` in `$HOME/j7ros_home/setup_env_pc.sh`.
 ```
-$HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_build_pc.sh
-```
-
-For ROS network settings, update `J7_IP_ADDR` and `PC_IP_ADDR` in `$HOME/j7ros_home/setup_env_pc.sh`.
-```
-source $HOME/j7ros_home/setup_env_pc.sh
-```
-
-Run the project Docker image:
-```
-$HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
+source ~/j7ros_home/setup_env_pc.sh
+~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 ```
 
 Build the ROS packages inside the project Docker container:
@@ -158,7 +160,8 @@ source devel/setup.bash
 ```
 
 <!-- ====================================================================== -->
-### Run the Demo: Camera + Radar Sensor Fusion, Motor Control and DLP Projection
+## Run the Demos
+### Camera + Radar Sensor Fusion, Motor Control and DLP Projection
 
 **TDA4**:
 Run the Docker container for the project:
@@ -175,14 +178,14 @@ roslaunch tid3_robot_demos fusion_detect_go.launch
 **PC**:
 Make sure `J7_IP_ADDR` and `PC_IP_ADDR` are set correctly in `$HOME/j7ros_home/setup_env_pc.sh`.
 ```
-source $HOME/j7ros_home/setup_env_pc.sh
+source ~/j7ros_home/setup_env_pc.sh
 ```
 
 Run the project Docker image:
 ```
-$HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
+~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 # if the Ubuntu PC uses a Nvidia GPU driver, please use below
-GPUS=y $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
+GPUS=y ~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 ```
 
 In the project Docker container:

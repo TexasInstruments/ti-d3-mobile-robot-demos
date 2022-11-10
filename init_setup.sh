@@ -1,16 +1,4 @@
 #!/bin/bash
-# Usage: source init_setup.sh
-
-# Release tag info of the current release
-GIT_TAG="08.04.00"
-if [ "$#" -eq 1 ]; then
-    GIT_TAG=$1
-fi
-echo "GIT_TAG = $GIT_TAG"
-
-# Git repository
-GIT_REPO="https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git"
-BRANCH=master
 
 # Define env variables
 ROS_WS=$HOME/j7ros_home/tid3_ws
@@ -52,11 +40,6 @@ function git_clone {
         echo "$GIT_FOLDER already exists"
     fi
 }
-
-# Git clone the project git repository
-mkdir -p $PROJ_BASE
-# git_clone_with_tag $GIT_REPO $PROJ_NAME $GIT_TAG
-git_clone $GIT_REPO $PROJ_NAME
 
 # Install mmWave radar driver node
 bash $PROJ_DIR/scripts/install_radar_driver.sh
