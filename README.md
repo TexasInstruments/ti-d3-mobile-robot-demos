@@ -181,6 +181,8 @@ source $HOME/j7ros_home/setup_env_pc.sh
 Run the project Docker image:
 ```
 $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
+# if the Ubuntu PC uses a Nvidia GPU driver, please use below
+GPUS=y $HOME/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 ```
 
 In the project Docker container:

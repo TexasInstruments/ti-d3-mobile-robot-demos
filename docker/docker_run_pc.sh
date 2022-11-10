@@ -14,16 +14,34 @@ else
     USE_PROXY=0
 fi
 xhost +local:$$USER
-docker run -it --rm \
-    -v $HOME/j7ros_home:/root/j7ros_home \
-    -v /dev:/dev \
-    --privileged \
-    --network host \
-    --env USE_PROXY=$USE_PROXY \
-    --env J7_IP_ADDR=$J7_IP_ADDR \
-    --env PC_IP_ADDR=$PC_IP_ADDR \
-    --env='DISPLAY' \
-    --env='QT_X11_NO_MITSHM=1' \
-    --volume='/tmp/.X11-unix:/tmp/.X11-unix:rw' \
-      $DOCKER_TAG $CMD
+if [ -v GPUS ]; then
+    docker run -it --rm \
+        -v $HOME/j7ros_home:/root/j7ros_home \
+        -v /dev:/dev \
+        --privileged \
+        --network host \
+        --env USE_PROXY=$USE_PROXY \
+        --env J7_IP_ADDR=$J7_IP_ADDR \
+        --env PC_IP_ADDR=$PC_IP_ADDR \
+        --gpus all \
+        --env='NVIDIA_VISIBLE_DEVICES=all' \
+        --env='NVIDIA_DRIVER_CAPABILITIES=all' \
+        --env='DISPLAY' \
+        --env='QT_X11_NO_MITSHM=1' \
+        --volume='/tmp/.X11-unix:/tmp/.X11-unix:rw' \
+        $DOCKER_TAG $CMD
+else
+    docker run -it --rm \
+        -v $HOME/j7ros_home:/root/j7ros_home \
+        -v /dev:/dev \
+        --privileged \
+        --network host \
+        --env USE_PROXY=$USE_PROXY \
+        --env J7_IP_ADDR=$J7_IP_ADDR \
+        --env PC_IP_ADDR=$PC_IP_ADDR \
+        --env='DISPLAY' \
+        --env='QT_X11_NO_MITSHM=1' \
+        --volume='/tmp/.X11-unix:/tmp/.X11-unix:rw' \
+        $DOCKER_TAG $CMD
+fi
 xhost -local:$$USER
