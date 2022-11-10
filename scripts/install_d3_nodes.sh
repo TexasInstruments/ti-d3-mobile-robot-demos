@@ -33,7 +33,18 @@ function git_clone_with_tag {
     fi
 }
 
-git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-fusion.git   d3_fusion   $GIT_TAG
+function git_clone {
+    GIT_URL=$1
+    GIT_FOLDER=$2
+    cd $WORK_PATH
+    if [[ ! -d "$GIT_FOLDER" ]]; then
+        git clone --single-branch --branch master $GIT_URL $GIT_FOLDER
+    else
+        echo "$GIT_FOLDER already exists"
+    fi
+}
+
+git_clone          $GIT_URL_BASE/edge-ai-ros-fusion.git   d3_fusion
 git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-motorctl.git d3_motorctl $GIT_TAG
 git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-gamepad.git  d3_gamepad  $GIT_TAG
 
