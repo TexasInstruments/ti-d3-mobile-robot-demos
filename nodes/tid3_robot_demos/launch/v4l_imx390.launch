@@ -37,7 +37,7 @@
             value="v4l2src device=$(arg device) do-timestamp=true ! videorate ! video/x-bayer, framerate=$(arg framerate)/1, width=1936, height=1096, format=rggb12 !
             tiovxisp sink_0::device=$(arg subdev) sensor-name=$(arg sensor_name) dcc-isp-file=$(arg dcc_isp_file)
             sink_0::dcc-2a-file=$(arg dcc_2a_file) format-msb=11 ! video/x-raw, format=NV12 !
-            tiovxldc sensor-name=$(arg sensor_name) lut-file=/opt/imaging/imx390/imx390_35244_equidistant_$(arg width)x$(arg height)_LUT.bin ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) !
+            tiovxldc sensor-name=$(arg sensor_name) lut-file=/opt/imaging/imx390/imx390_35244_equidistant_$(arg width)x$(arg height)_LUT.bin ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) out-block-height=32 out-block-width=32 !
             video/x-raw, format=NV12, width=$(arg width), height=$(arg height) !
             tiovxdlcolorconvert target=1 out-pool-size=4"/>
         <param name="camera_name"     value="$(arg camera_name)"/>

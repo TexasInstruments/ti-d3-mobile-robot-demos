@@ -60,7 +60,7 @@
             value="v4l2src device=$(arg device) do-timestamp=true ! video/x-bayer, width=1936, height=1096, format=rggb12 !
             tiovxisp sink_0::device=$(arg subdev) sensor-name=SENSOR_SONY_IMX390_UB953_D3 dcc-isp-file=$(arg dcc_isp_file)
             sink_0::dcc-2a-file=$(arg dcc_2a_file) format-msb=11 ! video/x-raw, format=NV12 !
-            tiovxldc sensor-name=SENSOR_SONY_IMX390_UB953_D3 lut-file=$(arg ldc_dcc_prefix)$(arg width)x$(arg height)_LUT.bin ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) !
+            tiovxldc sensor-name=SENSOR_SONY_IMX390_UB953_D3 lut-file=$(arg ldc_dcc_prefix)$(arg width)x$(arg height)_LUT.bin ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) out-block-width=32 out-block-height=32 !
             video/x-raw, format=NV12, width=$(arg width), height=$(arg height) !
             tiovxdlcolorconvert target=1 out-pool-size=4 "/>
         <param name="camera_name"     value="$(arg camera_name)"/>
