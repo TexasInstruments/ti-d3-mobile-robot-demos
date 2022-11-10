@@ -54,8 +54,9 @@ function git_clone {
 }
 
 # Git clone the project git repository
+mkdir -p $PROJ_BASE
 # git_clone_with_tag $GIT_REPO $PROJ_NAME $GIT_TAG
-git_clone_with_tag $GIT_REPO $PROJ_NAME
+git_clone $GIT_REPO $PROJ_NAME
 
 # Install mmWave radar driver node
 bash $PROJ_DIR/scripts/install_radar_driver.sh

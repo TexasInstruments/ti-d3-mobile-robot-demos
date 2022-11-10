@@ -120,7 +120,7 @@ A Ubuntu PC is required for visualization of ROS topics published from the TDA4 
 Download and run [`init_setup.sh`](https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh)
 ```
 cd ~/j7ros_home
-wget -O init_set.sh https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh
+wget -O init_setup.sh https://raw.githubusercontent.com/TexasInstruments/ti-d3-mobile-robot-demos/master/init_setup.sh
 bash ./init_setup.sh
 ```
 
