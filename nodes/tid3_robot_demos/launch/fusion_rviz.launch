@@ -2,22 +2,13 @@
 
     <arg name="width" default="1280"/>
     <arg name="height" default="720"/>
-    <arg name="camera_name" default="imx390"/>
 
-    <!-- color conversion for input image_raw for visualization -->
-    <node pkg="ti_viz_nodes" type="viz_color_conv_yuv2rgb" name="viz_color_conv_yuv2rgb_node_host" output="screen" args="" required="true">
-        <param name="width"             value="$(arg width)"/>
-        <param name="height"            value="$(arg height)"/>
-        <param name="input_yuv_topic"   value="$(arg camera_name)/image_raw"/>
-        <param name="output_rgb_topic"  value="$(arg camera_name)/image_rgb"/>
-        <param name="yuv_format"        value="YUV420"/>
-        <param name="yuv420_luma_only"  value="false"/>
-    </node>
-
-    <node pkg="d3_fusion" type="fusion_cnn_radar.py" name="radar_camera_fusion_node" ns="fusion1" output="screen">
-        <param name="camera_name" value="imx390"/>
-        <remap from="/image_raw" to="/imx390/image_rgb"/>
-    </node>
+    <include file="$(find tid3_robot_demos)/launch/fusion_viz.launch">
+        <arg name="camera_name" value="imx390"/>
+        <arg name="radar_name" value="ti_mmwave"/>
+        <arg name="width" value="$(arg width)"/>
+        <arg name="height" value="$(arg height)"/>
+    </include>
 
     <!-- rviz -->
     <node pkg="rviz" type="rviz" name="rviz_sde" args="-d $(find tid3_robot_demos)/rviz/fusion_1up.rviz" />

@@ -22,10 +22,11 @@ mkdir -p $WORK_PATH
 function git_clone_with_tag {
     GIT_URL=$1
     GIT_FOLDER=$2
-    TAG=$3
+    GIT_BRANCH=$3
+    TAG=$4
     cd $WORK_PATH
     if [[ ! -d "$GIT_FOLDER" ]]; then
-        git clone --single-branch --branch master $GIT_URL $GIT_FOLDER
+        git clone --branch $GIT_BRANCH $GIT_URL $GIT_FOLDER
         cd $GIT_FOLDER
         git checkout tags/$TAG -b $TAG
         cd $WORK_PATH
@@ -34,22 +35,27 @@ function git_clone_with_tag {
     fi
 }
 
-function git_clone {
+function git_clone_commit {
     GIT_URL=$1
     GIT_FOLDER=$2
+    GIT_BRANCH=$3
+    GIT_COMMIT=$4
     cd $WORK_PATH
     if [[ ! -d "$GIT_FOLDER" ]]; then
-        git clone --single-branch --branch master $GIT_URL $GIT_FOLDER
+        git clone --branch $GIT_BRANCH $GIT_URL $GIT_FOLDER
+        cd $GIT_FOLDER
+        git checkout $GIT_COMMIT
+        cd $WORK_PATH
     else
         echo "$GIT_FOLDER already exists"
     fi
 }
 
-git_clone          $GIT_URL_BASE/edge-ai-ros-fusion.git   d3_fusion
-git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-motorctl.git d3_motorctl $GIT_TAG
-git_clone_with_tag $GIT_URL_BASE/edge-ai-ros-gamepad.git  d3_gamepad  $GIT_TAG
+git_clone_commit $GIT_URL_BASE/edge-ai-ros-fusion.git   d3_fusion   fusion-support-x4 c4e226b682c7e64550e12619d7b828058d51b193
+git_clone_commit $GIT_URL_BASE/edge-ai-ros-motorctl.git d3_motorctl master            be1f7c86f48bd2a48e7e8dacbadeee1ed4c1e8b1
+git_clone_commit $GIT_URL_BASE/edge-ai-ros-gamepad.git  d3_gamepad  master            611cc069bbdd2ff11498e3b516bc0519576c9130
 
 #TODO: remove below once the patch is applied directly to d3_fusion repo
-cd $WORK_PATH/d3_fusion && git apply $PROJ_DIR/scripts/patches/d3_fusion.patch && cd -
+cd $WORK_PATH/d3_fusion && git apply $PROJ_DIR/scripts/patches/d3_fusion_4x.patch && cd -
 
 cd $CURRENT_DIR

@@ -1,0 +1,36 @@
+diff --git a/ros1/nodes/ti_objdet_range/launch/zed_objdet_range.launch b/ros1/nodes/ti_objdet_range/launch/zed_objdet_range.launch
+index 2de4c03..b2a6e6b 100644
+--- a/ros1/nodes/ti_objdet_range/launch/zed_objdet_range.launch
++++ b/ros1/nodes/ti_objdet_range/launch/zed_objdet_range.launch
+@@ -1,6 +1,7 @@
+ <launch>
+ 
+     <arg name="zed_sn" default="SN18059"/>
++    <arg name="device" default="/dev/video2"/>
+ 	<arg name="exportPerfStats" default="0"/>
+ 
+     <!-- objdet_range.launch -->
+@@ -15,7 +16,7 @@
+ 		<param name="frame_rate"              value="15"/>
+ 		<param name="frame_id_left"           value="left_frame"/>
+ 		<param name="frame_id_right"          value="right_frame"/>
+-		<param name="device_name"             value="/dev/video2"/>
++		<param name="device_name"             value="$(arg device)"/>
+ 		<param name="encoding"                value="yuv422"/>
+ 		<param name="image_topic_left"        value="camera/left/image_raw" />
+ 		<param name="image_topic_right"       value="camera/right/image_raw" />
+diff --git a/ti_core/ti_vision_cnn/src/vision_cnn.cpp b/ti_core/ti_vision_cnn/src/vision_cnn.cpp
+index 135a455..d1bbb52 100644
+--- a/ti_core/ti_vision_cnn/src/vision_cnn.cpp
++++ b/ti_core/ti_vision_cnn/src/vision_cnn.cpp
+@@ -220,6 +220,10 @@ vx_status VISION_CNN_init(VISION_CNN_Context *appCntxt)
+         appCntxt->postProcCfg.outDataWidth  = appCntxt->inputImageWidth;
+         appCntxt->postProcCfg.outDataHeight = appCntxt->inputImageHeight;
+ 
++        /* assign  vizThreshold */
++        // appCntxt->postProcCfg.vizThreshold = appCntxt->vizThreshold;
++        appCntxt->postProcCfg.vizThreshold = 0.3;
++
+         appCntxt->postProcObj =
+             CmPostprocessImage::makePostprocessImageObj(appCntxt->postProcCfg);
+ 

@@ -1,31 +1,31 @@
 <launch>
 
     <!-- IMX390 device mapping
-    Front  /dev/imx390-0-3
-    Left   /dev/imx390-0-2
-    Right  /dev/imx390-0-1
-    Back   /dev/imx390-1-2 -->
+    Front:  /dev/imx390-0-3
+    Left:   /dev/imx390-0-2
+    Right:  /dev/imx390-0-1
+    Back:   /dev/imx390-1-2 -->
 
     <!-- You can check the device ID and subdev ID for the IMX390 camera attached
     by running /opt/edge_ai_apps/scripts/setup_cameras.sh.
     Accordingly please update the parameters pass as arguments -->
     <arg name="device" default="/dev/imx390-0-3"/>
     <arg name="subdev" default="/dev/imx390-0-3-subdev"/>
-    <arg name="width" default="1280"/>
+    <arg name="width"  default="1280"/>
     <arg name="height" default="720"/>
 
     <!-- Radar device mapping
-    /dev/frontradarcontrol ttyXRUSB0
-    /dev/frontradardata    ttyXRUSB1
-    /dev/backradarcontrol  ttyXRUSB2
-    /dev/backradardata     ttyXRUSB3
-    /dev/leftradarcontrol  ttyXRUSB4
-    /dev/leftradardata     ttyXRUSB5
-    /dev/rightradarcontrol ttyXRUSB6
-    /dev/rightradardata    ttyXRUSB7 -->
+    Front: /dev/radar1control  ttyXRUSB0
+           /dev/radar1data     ttyXRUSB1
+    Back:  /dev/radar2control  ttyXRUSB2
+           /dev/radar2data     ttyXRUSB3
+    Left:  /dev/radar3control  ttyXRUSB4
+           /dev/radar3data     ttyXRUSB5
+    Right: /dev/radar4control  ttyXRUSB6
+           /dev/radar4data     ttyXRUSB7 -->
 
-    <arg name="radar_command_port" default="/dev/frontradarcontrol"/>
-    <arg name="radar_data_port"    default="/dev/frontradardata"/>
+    <arg name="radar_command_port" default="/dev/radar1control"/>
+    <arg name="radar_data_port"    default="/dev/radar1data"/>
 
     <!-- args for motor control -->
     <arg name="speed_linear_fast" default="0.8"/>
@@ -45,11 +45,11 @@
     <!-- DCC 2A binary file -->
     <arg name="dcc_2a_file" default="/opt/imaging/imx390/dcc_2a.bin"/>
     <!-- LDC binary file -->
-    <arg name="ldc_dcc_prefix" default="/opt/imaging/imx390/imx390_35244_equidistant_"/>
+    <arg name="ldc_dcc_file" default="/opt/imaging/imx390/imx390_35244_equidistant_$(arg width)x$(arg height)_LUT.bin"/>
     <!-- camera_info URL: replace with camera_info from camera calibration -->
     <!-- <arg name="camera_info_url" default="package://gscam/config/IMX390_HD_camera_info.yaml"/> -->
     <!-- <arg name="camera_info_url" default="file:///opt/imaging/imx390/imx390_35244_fisheye.yml"/> -->
-    <arg name="camera_info_url" default="file:///opt/imaging/imx390/imx390_35244_equidistant_1280x720_rect.yml"/>
+    <arg name="camera_info_url" default="file:///opt/imaging/imx390/imx390_35244_equidistant_$(arg width)x$(arg height)_rect.yml"/>
 
     <!-- GStreamer pipeline specified in gscam_config was tested with IMX390 camera,
         'edgeai-tiovx-modules' and 'edgeai-gst-plugins' are assumed to be already installed in TDA4 ROS container.
@@ -60,7 +60,7 @@
             value="v4l2src device=$(arg device) do-timestamp=true ! video/x-bayer, width=1936, height=1096, format=rggb12 !
             tiovxisp sink_0::device=$(arg subdev) sensor-name=SENSOR_SONY_IMX390_UB953_D3 dcc-isp-file=$(arg dcc_isp_file)
             sink_0::dcc-2a-file=$(arg dcc_2a_file) format-msb=11 ! video/x-raw, format=NV12 !
-            tiovxldc sensor-name=SENSOR_SONY_IMX390_UB953_D3 lut-file=$(arg ldc_dcc_prefix)$(arg width)x$(arg height)_LUT.bin ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) out-block-width=32 out-block-height=32 !
+            tiovxldc sensor-name=SENSOR_SONY_IMX390_UB953_D3 lut-file=$(arg ldc_dcc_file) ldc-ds-factor=2 ldc-table-width=$(arg width) ldc-table-height=$(arg height) out-block-width=32 out-block-height=32 !
             video/x-raw, format=NV12, width=$(arg width), height=$(arg height) !
             tiovxdlcolorconvert target=1 out-pool-size=4 "/>
         <param name="camera_name"     value="$(arg camera_name)"/>
@@ -96,7 +96,6 @@
         <param name = "vision_cnn_tensor_topic" value = "$(arg camera_name)/vision_cnn/tensor"/>
         <param name = "exportPerfStats" value = "$(arg exportPerfStats)"/>
     </node>
-
 
     <!-- AOP_3d_Tracking.launch -->
     <!-- FOR TESTING, DON'T LAUNCH THE RADAR HERE BECAUSE YOU NEED TO RESET ITS POWER EVERY TIME YOU STREAM -->

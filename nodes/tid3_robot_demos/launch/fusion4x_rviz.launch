@@ -1,0 +1,37 @@
+<launch>
+
+    <arg name="width" default="960"/>
+    <arg name="height" default="540"/>
+
+    <include ns="front" file="$(find tid3_robot_demos)/launch/fusion_viz.launch">
+        <arg name="camera_name" value="imx390"/>
+        <arg name="radar_name" value="ti_mmwave"/>
+        <arg name="width" value="$(arg width)"/>
+        <arg name="height" value="$(arg height)"/>
+    </include>
+
+    <include ns="back" file="$(find tid3_robot_demos)/launch/fusion_viz.launch">
+        <arg name="camera_name" value="imx390"/>
+        <arg name="radar_name" value="ti_mmwave"/>
+        <arg name="width" value="$(arg width)"/>
+        <arg name="height" value="$(arg height)"/>
+    </include>
+
+    <include ns="left" file="$(find tid3_robot_demos)/launch/fusion_viz.launch">
+        <arg name="camera_name" value="imx390"/>
+        <arg name="radar_name" value="ti_mmwave"/>
+        <arg name="width" value="$(arg width)"/>
+        <arg name="height" value="$(arg height)"/>
+    </include>
+
+    <include ns="right" file="$(find tid3_robot_demos)/launch/fusion_viz.launch">
+        <arg name="camera_name" value="imx390"/>
+        <arg name="radar_name" value="ti_mmwave"/>
+        <arg name="width" value="$(arg width)"/>
+        <arg name="height" value="$(arg height)"/>
+    </include>
+
+    <!-- rviz -->
+    <node pkg="rviz" type="rviz" name="rviz_fusion4x" args="-d $(find tid3_robot_demos)/rviz/fusion_4up.rviz" />
+
+</launch>

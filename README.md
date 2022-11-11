@@ -47,6 +47,8 @@ On a SSH terminal for the TDA4, clone the project repository and run the initial
 ```
 cd /opt
 git clone https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git
+cd ti-d3-mobile-robot-demos
+git checkout fusion-4ch
 bash /opt/ti-d3-mobile-robot-demos/init_setup.sh
 ```
 The setup script performs:
@@ -123,6 +125,8 @@ Clone the project repository and run the initial setup script:
 mkdir -p ~/j7ros_home/tid3_ws/src
 cd ~/j7ros_home/tid3_ws/src
 git clone https://github.com/TexasInstruments/ti-d3-mobile-robot-demos.git
+cd ti-d3-mobile-robot-demos
+git checkout fusion-4ch
 bash ~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/init_setup.sh
 ```
 
@@ -192,6 +196,22 @@ In the project Docker container:
 ```
 source devel/setup.bash
 roslaunch tid3_robot_demos fusion_rviz.launch
+```
+
+### 4-Channel Camera + Radar Sensor Fusion
+
+**TDA4**:
+Please double-check all the devices are detected as specified in the launch files. In the project Docker container:
+```
+source devel/setup.bash
+roslaunch tid3_robot_demos fusion4x_detect_go.launch
+```
+
+**PC**:
+In the project Docker container:
+```
+source devel/setup.bash
+roslaunch tid3_robot_demos fusion4x_rviz.launch
 ```
 
 ### Teleop with a Gamepad

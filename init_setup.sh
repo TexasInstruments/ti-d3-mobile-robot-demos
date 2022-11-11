@@ -57,6 +57,14 @@ if [[ "$ARCH" == "aarch64" ]]; then
     cd -
 fi
 
+# Apply patche to robotics_sdk
+# vizThreshold = 0.3
+if [[ "$ARCH" == "aarch64" ]]; then
+    cd /opt/robotics_sdk
+    git apply $PROJ_DIR/scripts/patches/robotics_sdk.patch
+    cd -
+fi
+
 # Update dtbo ovelay
 # NOTE: This was verified only for one version of Fusion board.
 # May not be compatible with other version of the Fusion board.

@@ -1,0 +1,34 @@
+<launch>
+
+    <!-- args for motor control -->
+    <arg name="speed_linear_fast" default="0.8"/>
+    <arg name="speed_linear_slow" default="0.4"/>
+    <arg name="speed_linear_stop" default="0.0"/>
+
+    <include file="$(find d3_fusion)/launch/fusion-x4.launch"/>
+
+    <!-- ti_detect_go -->
+    <node pkg="ti_detect_go" type="ti_detect_go" name="detect_go" output="screen" args="" required="true">
+        <param name="radar_track_topic" value="front/ti_mmwave/radar_trackarray"/>
+        <param name="out_vel_topic"     value="cmd_vel"/>
+        <!-- clock rate for contol_cycle() -->
+        <param name="control_cycle_hz"  value="5"/>
+         <!-- following 3 params used in setting out_val.linear.x for each state -->
+        <param name="speed_linear_fast" value="$(arg speed_linear_fast)"/>
+        <param name="speed_linear_slow" value="$(arg speed_linear_slow)"/>
+        <param name="speed_linear_stop" value="$(arg speed_linear_stop)"/>
+        <!-- following 3 params define zone_stop and zone_slow -->
+        <param name="zone_stop_xlim"    value="0.8"/>
+        <param name="zone_slow_xlim"    value="1.5"/>
+        <param name="zone_yabs"         value="1.0"/>
+    </node>
+
+    <include ns="drive" file="$(find d3_motorctl)/launch/motor.launch"/>
+
+    <include file="$(find ti_dlp_command)/launch/dlp.launch">
+        <param name="speed_linear_fast" value="$(arg speed_linear_fast)"/>
+        <param name="speed_linear_slow" value="$(arg speed_linear_slow)"/>
+        <param name="speed_linear_stop" value="$(arg speed_linear_stop)"/>
+    </include>
+
+</launch>
