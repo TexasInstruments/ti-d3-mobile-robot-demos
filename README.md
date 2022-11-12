@@ -36,11 +36,6 @@ Download the prebuilt SD card image from [this link](https://software-dl.ti.com/
 
 Flash the downloaded image to a SD card using the balenaEtcher tool, referring to the following section of Edge AI documentation: ["Preparing SD card image"](https://software-dl.ti.com/jacinto7/esd/processor-sdk-linux-sk-tda4vm/latest/exports/docs/getting_started.html#preparing-sd-card-image).
 
-### Robotics SDK
-The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC.
-- [Setting Up Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/README.html#setting-up-robotics-sdk)
-- [Docker Setup for ROS 1](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/setting_docker_ros1.html#docker-setup-for-ros-1)
-
 ### Preparing Software on TDA4
 
 On a SSH terminal for the TDA4, clone the project repository and run the initial setup script:
@@ -74,6 +69,11 @@ The folder structure for the TI-D3 mobile robot project is as follows:
     + d3_gamepad/
     + d3_motorctl/
 ```
+
+### Robotics SDK
+The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC. This should be done after running `init_setup.sh` since there are patches that should be applied ahead.
+- [Setting Up Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/README.html#setting-up-robotics-sdk)
+- [Docker Setup for ROS 1](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/setting_docker_ros1.html#docker-setup-for-ros-1)
 
 #### Set Up Docker Environment for the Project
 
@@ -148,6 +148,8 @@ Before running the project Docker image, for ROS network settings please update 
 ```
 source ~/j7ros_home/setup_env_pc.sh
 ~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
+# if the Ubuntu PC uses a Nvidia GPU driver, please use below
+GPUS=y ~/j7ros_home/tid3_ws/src/ti-d3-mobile-robot-demos/docker/docker_run_pc.sh
 ```
 
 Build the ROS packages inside the project Docker container:
