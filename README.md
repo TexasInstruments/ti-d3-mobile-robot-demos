@@ -8,7 +8,7 @@ TI-D3 Mobile Robot Demos
 <!-- ======================================================================= -->
 ## TI-D3 Mobile Robot
 
-[![](https://img.youtube.com/vi/rrhvhDdtyF8/0.jpg)](https://www.youtube.com/watch?v=rrhvhDdtyF8)
+[![](https://img.youtube.com/vi/gnVMJ0VCmX0/0.jpg)](https://www.youtube.com/watch?v=gnVMJ0VCmX0)
 
 <p align="left">
   <img src="docs/ti_d3_mobile_robot_2022-10-11.jpg" alt="drawing" style="width:512px;"/>
