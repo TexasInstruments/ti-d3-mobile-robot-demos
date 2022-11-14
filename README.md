@@ -8,7 +8,7 @@ TI-D3 Mobile Robot Demos
 <!-- ======================================================================= -->
 ## TI-D3 Mobile Robot
 
-[![](https://img.youtube.com/vi/rrhvhDdtyF8/0.jpg)](https://www.youtube.com/watch?v=rrhvhDdtyF8)
+[![](https://img.youtube.com/vi/gnVMJ0VCmX0/0.jpg)](https://www.youtube.com/watch?v=gnVMJ0VCmX0)
 
 <p align="left">
   <img src="docs/ti_d3_mobile_robot_2022-10-11.jpg" alt="drawing" style="width:512px;"/>
@@ -73,7 +73,7 @@ The folder structure for the TI-D3 mobile robot project is as follows:
 ```
 
 ### Robotics SDK
-The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC. This should be done after running `/opt/ti-d3-mobile-robot-demos/init_setup.sh` since there are patches that should be applied ahead.
+The TI-D3 mobile robot demos require [Robotics SDK 8.4](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/index.html). Referring to the following sections of the SDK documentation, please build the Robotics SDK Docker image, and build the ROS packages provided in the SDK on the TDA4 and also on the Ubuntu PC. This should be done after running `init_setup.sh` since there are patches that should be applied ahead.
 - [Setting Up Robotics SDK](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/README.html#setting-up-robotics-sdk)
 - [Docker Setup for ROS 1](https://software-dl.ti.com/jacinto7/esd/robotics-sdk/08_04_00/docs/source/docker/setting_docker_ros1.html#docker-setup-for-ros-1)
 
