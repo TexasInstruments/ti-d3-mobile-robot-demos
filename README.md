@@ -203,3 +203,9 @@ In the project Docker container:
 source devel/setup.bash
 roslaunch d3_fusion drive.launch
 ```
+
+<!-- ====================================================================== -->
+## CES 2023 Demo
+### Apriltag-based Autonomous Navigation + Datamatrix Scanning
+Warehouse inventory management demo shown in CES 2023, including Apriltag-based autonomous navigation and datamatrix scanning can be found at D3 Engineering's repository: https://github.com/D3Engineering/edge-ai-ros-inventory-demo
+
