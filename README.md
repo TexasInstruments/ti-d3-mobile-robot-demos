@@ -207,5 +207,15 @@ roslaunch d3_fusion drive.launch
 <!-- ====================================================================== -->
 ## CES 2023 Demo
 ### Apriltag-based Autonomous Navigation + Datamatrix Scanning
-Warehouse inventory management demo shown in CES 2023, including Apriltag-based autonomous navigation and datamatrix scanning can be found at D3 Engineering's repository: https://github.com/D3Engineering/edge-ai-ros-inventory-demo
+[![](https://img.youtube.com/vi/yuXk0p00hJk/0.jpg)](https://www.youtube.com/watch?v=yuXk0p00hJk)
+
+<p align="left">
+  <img src="docs/Robotic-Inventory-Scanning.gif" alt="drawing" style="width:512px;"/>
+</p>
+
+In this demo, several TI technologies are coming together to showcase smarter, cost-effective and safety-certifiable robots of tomorrow. The ROS2-based application running on the TDA4VM processor demonstrates vision and radar sensor-fusion processing for 360-degree obstacle-detection and avoidance using 4x IWR6843AOP mmWave radar sensors and a 4x IMX390 vision camera. The TDA4VM board connects to a DLP-based HMI module for the robot to communicate with its surroundings via projecting signs such as LEFT/RIGHT/FORWARD/Scanning on the floor.
+
+To find out more, please check D3 Engineering's landing page: https://www.d3engineering.com/solutions/robotic-inventory-scanning-using-sensor-fusion/ 
+
+Source code: https://github.com/D3Engineering/edge-ai-ros-inventory-demo
 
